@@ -10,7 +10,7 @@ import {getFirestore, doc, getDoc, setDoc} from "firebase/firestore";
 /*
     note for the import:
     1. getFireStore for setting up the db
-    2. doc for setting up/ create(?) the document?
+    2. doc for setting up/ the collection and document
     3. getDoc for read the document
     4. setDoc to update the document
 */
@@ -51,19 +51,37 @@ export const db = getFirestore();
 
 //set up document in firestore
 export const createUserDocumentFromAuth = async (userAuth) => {
-    //setup the doc
+    
+    //setup the collection and doc
     const userDocRef = doc(db, 'users', userAuth.uid);
-    console.log(userDocRef);
+    /*
+    note:
+        1. 'users' is the collection name
+        2. userAuth is a selected user props from google successfull sign in object that has already been destructured 
+        in sign-in component where we leverage this method
+        3. userAuth.uid will be a doc name
+    */
 
     //setup for reading the doc
     const userSnapshot = await getDoc(userDocRef);
-    console.log(userSnapshot);
-    console.log(userSnapshot.exists());
+    
+    //setup for update the doc
+    if(!userSnapshot.exists()) {
+        const {displayName, email} = userAuth;
+        const createdAt = new Date();
+
+        try {
+            await setDoc(userDocRef, {
+                displayName,
+                email,
+                createdAt
+            })
+        } catch (error) {
+            console.log("error creating the user", error.message);
+        };
+    };
+
+    return userDocRef;
 };
 
-/*
-note:
-    1. 'users' is the collection name
-    2. userAuth is a selected props from google successfull sign in object that has already been destructured in sign-in component where we leverage this method
-*/
 

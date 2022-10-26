@@ -11,10 +11,12 @@ const SignIn = () => {
     const logGoogleUser = async () => {
         const {user} = await signInWithGooglePopup();
         /*
-            1. return object with 4 props: operationType, providerId, user, _tokenResponse; 
+            1. return an object with 4 props: operationType, providerId, user, _tokenResponse; 
             2. we just leverage user prop; user prop contain uid prop that we want to leverage inside createDocumentFromAuth;
         */
-        createUserDocumentFromAuth(user);;
+
+       //for CRUD action in firestore
+        const userDocRef = createUserDocumentFromAuth(user);;
     };
 
     return (
