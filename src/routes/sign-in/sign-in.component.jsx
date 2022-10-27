@@ -4,7 +4,7 @@ import { signInWithGooglePopup, createUserDocumentFromAuth } from "../../utils/f
 /* 
 note for createUserDocumentFromAuth:
     1. is an alias for const userDocRef = doc(db, 'users', userAuth.id); 
-    2. in this doc the function will take an argument to be processed inside the function
+    2. in this doc the function will take an argument (userAuth) to be processed inside the function
 */
 
 const SignIn = () => {
@@ -16,7 +16,7 @@ const SignIn = () => {
         */
 
        //for CRUD action in firestore
-        const userDocRef = createUserDocumentFromAuth(user);;
+        const userDocRef = await createUserDocumentFromAuth(user);
     };
 
     return (

@@ -30,7 +30,7 @@ const firebaseApp = initializeApp(firebaseConfig);
 
 //SETUP FOR FIREBASE AUTH
 
-//initialize to get an auth from firebase auth db
+//initialize to get an auth from firebase auth db, track all the auth state that happening in all of our website
 export const auth = getAuth();
 
 //initialize googleAuth as provider
@@ -41,6 +41,9 @@ googleProvider.setCustomParameters({
 
 //initialize to sign in with google popup, don't forget to add sign in with google method on firebase auth
 export const signInWithGooglePopup = () => signInWithPopup(auth, googleProvider);
+
+//initialize to sign in with google redirect, don't forget to add sign in with google method on firebase auth
+export const signInWithGoogleRedirect = () => signInWithRedirect(auth, googleProvider);
 
 
 
@@ -57,7 +60,7 @@ export const createUserDocumentFromAuth = async (userAuth) => {
     /*
     note:
         1. 'users' is the collection name
-        2. userAuth is a selected user props from google successfull sign in object that has already been destructured 
+        2. userAuth is a selected USER props from google successfull sign in object that has already been destructured 
         in sign-in component where we leverage this method
         3. userAuth.uid will be a doc name
     */
