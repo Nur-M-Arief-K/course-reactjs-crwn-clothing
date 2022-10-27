@@ -1,15 +1,11 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 
-import {createUserDocumentFromAuth, signInWithGooglePopup, signInAuthUserWithEmailAndPassword } from "../../utils/firebase/firebase.utils";
+import { signInWithGooglePopup, signInAuthUserWithEmailAndPassword } from "../../utils/firebase/firebase.utils";
 //is an alias for  createUserWithEmailAndPassword(auth, email, password); receive email, and password arguments; auth can be checked inside firebase.utils
-//createUserDocumetFromAuth is a function to write in firestore
-//signInAuthUserWithEmailAndPassword for sign in with email and password, receiving similar args with createUserDocumentFromAuth (sign up user with email and password)
+//signInAuthUserWithEmailAndPassword for sign in with email and password
 
 import FormInput from "../form-input/form-input.component";
 import Button from "../button/button.component";
-
-//for context purpose
-import { UserContext } from "../../contexts/user.context";
 
 import "./sign-in-form.styles.component.scss";
 
@@ -22,19 +18,14 @@ const SignInForm = () => {
     const [formFields, setFormFields] = useState(defaultFormFields);
     const {email, password} = formFields;
 
-    const {setCurrentUser} = useContext(UserContext);
-
     const resetFormFields = () => setFormFields(defaultFormFields);
 
     const signInWithGoogle = async () => {
-        const {user} = await signInWithGooglePopup();
+        await signInWithGooglePopup();
         /*
             1. return an object with 4 props: operationType, providerId, user, _tokenResponse; 
             2. we just leverage user prop; user prop contain uid prop that we want to leverage inside createDocumentFromAuth;
         */
-        
-       //for CRUD action in firestore
-        await createUserDocumentFromAuth(user);
     };
 
     //setup for  functionality for onsubmit from html form tag below

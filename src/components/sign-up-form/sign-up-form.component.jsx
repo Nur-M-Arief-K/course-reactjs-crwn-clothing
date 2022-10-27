@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 
 import { createAuthUserWithEmailAndPassword, createUserDocumentFromAuth } from "../../utils/firebase/firebase.utils";
 //is an alias for  createUserWithEmailAndPassword(auth, email, password); receive email, and password arguments; auth can be checked inside firebase.utils
@@ -6,10 +6,6 @@ import { createAuthUserWithEmailAndPassword, createUserDocumentFromAuth } from "
 
 import FormInput from "../form-input/form-input.component";
 import Button from "../button/button.component";
-
-//for context purpose, setCurrentUser
-import { UserContext } from "../../contexts/user.context";
-//for context purpose
 
 import "./sign-up-form.styles.component.scss";
 
@@ -23,8 +19,6 @@ const defaultFormFields = {
 const SignUpForm = () => {
     const [formFields, setFormFields] = useState(defaultFormFields);
     const {displayName, email, password, confirmPassword} = formFields;
-
-    const {setCurrentUser} = useContext(UserContext);
 
     const resetFormFields = () => setFormFields(defaultFormFields);
 
@@ -41,10 +35,7 @@ const SignUpForm = () => {
         try {
             const {user} = await createAuthUserWithEmailAndPassword(email, password); //will just return user prop from the other 3 props, which contain: operationType, providerId, user, _tokenResponse
 
-            setCurrentUser(user); //set user context
-
             await createUserDocumentFromAuth(user, {displayName}); //will create the user data in firestore, the function is in firebase.utils
-
 
             resetFormFields();
         } catch (error) {
