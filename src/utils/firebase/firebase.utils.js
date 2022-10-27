@@ -45,7 +45,7 @@ export const signInWithGooglePopup = () => signInWithPopup(auth, googleProvider)
 //initialize to sign in with google redirect, don't forget to add sign in with google method on firebase auth
 export const signInWithGoogleRedirect = () => signInWithRedirect(auth, googleProvider);
 
-//initialize sign in with email and password
+//initialize sign up with email and password
 export const createAuthUserWithEmailAndPassword = async (email, password) => {
     if(!email || !password) return;
     return await createUserWithEmailAndPassword(auth, email, password);
