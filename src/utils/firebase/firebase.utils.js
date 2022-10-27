@@ -57,7 +57,7 @@ export const createAuthUserWithEmailAndPassword = async (email, password) => {
 export const db = getFirestore();
 
 //set up document in firestore
-export const createUserDocumentFromAuth = async (userAuth) => {
+export const createUserDocumentFromAuth = async (userAuth, additionalInformation = {}) => {
     if(!userAuth) return;
     
     //setup the collection and doc
@@ -67,6 +67,8 @@ export const createUserDocumentFromAuth = async (userAuth) => {
         1. 'users' is the collection name
         2. userAuth is a selected USER props from google successfull sign in object that has already been destructured 
         in sign-in component where we leverage this method
+        2b. additionalInformation is for createUserWithEmailAndPassword from an alias of createAuthUserWithEmailAndPassword 
+            because it return null in displayName, therefore we need additonal information from formFields in the sign-up-form component
         3. userAuth.uid will be a doc name
     */
 
@@ -82,7 +84,8 @@ export const createUserDocumentFromAuth = async (userAuth) => {
             await setDoc(userDocRef, {
                 displayName,
                 email,
-                createdAt
+                createdAt,
+                ...additionalInformation
             })
         } catch (error) {
             console.log("error creating the user", error.message);
