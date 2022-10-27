@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import {getAuth, signInWithRedirect, signInWithPopup, GoogleAuthProvider} from "firebase/auth";
+import {getAuth, signInWithRedirect, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword} from "firebase/auth";
 /*
     note for the import:
     1. getAuth, signInWithRedirect, and signInWithPopup are generic command to fetch data from firebase; 
@@ -45,7 +45,11 @@ export const signInWithGooglePopup = () => signInWithPopup(auth, googleProvider)
 //initialize to sign in with google redirect, don't forget to add sign in with google method on firebase auth
 export const signInWithGoogleRedirect = () => signInWithRedirect(auth, googleProvider);
 
-
+//initialize sign in with email and password
+export const createAuthUserWithEmailAndPassword = async (email, password) => {
+    if(!email || !password) return;
+    return await createUserWithEmailAndPassword(auth, email, password);
+};
 
 //SETUP FOR FIREBASE FIRESTORE
 
@@ -54,6 +58,7 @@ export const db = getFirestore();
 
 //set up document in firestore
 export const createUserDocumentFromAuth = async (userAuth) => {
+    if(!userAuth) return;
     
     //setup the collection and doc
     const userDocRef = doc(db, 'users', userAuth.uid);
