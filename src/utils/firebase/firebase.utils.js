@@ -1,5 +1,14 @@
 import { initializeApp } from "firebase/app";
-import {getAuth, signInWithRedirect, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut} from "firebase/auth";
+import {
+    getAuth, 
+    signInWithRedirect, 
+    signInWithPopup, 
+    GoogleAuthProvider, 
+    createUserWithEmailAndPassword, 
+    signInWithEmailAndPassword, 
+    signOut,
+    onAuthStateChanged
+} from "firebase/auth";
 /*
     note for the import:
     1. getAuth, signInWithRedirect, and signInWithPopup are generic command to fetch data from firebase; 
@@ -41,17 +50,18 @@ googleProvider.setCustomParameters({
     prompt: "select_account"
 });
 
+//initialize sign up with email and password
+export const createAuthUserWithEmailAndPassword = async (email, password) => {
+    if(!email || !password) return;
+    return await createUserWithEmailAndPassword(auth, email, password);
+};
+
 //initialize to sign in with google popup, don't forget to add sign in with google method on firebase auth
 export const signInWithGooglePopup = () => signInWithPopup(auth, googleProvider);
 
 //initialize to sign in with google redirect, don't forget to add sign in with google method on firebase auth
 export const signInWithGoogleRedirect = () => signInWithRedirect(auth, googleProvider);
 
-//initialize sign up with email and password
-export const createAuthUserWithEmailAndPassword = async (email, password) => {
-    if(!email || !password) return;
-    return await createUserWithEmailAndPassword(auth, email, password);
-};
 
 //initialize sign in with email and password
 export const signInAuthUserWithEmailAndPassword = async (email, password) => {
@@ -61,6 +71,15 @@ export const signInAuthUserWithEmailAndPassword = async (email, password) => {
 
 //initialize sign out, GENERIC FUNCTIONALITY, FOR ALL
 export const signOutUser = async () => await signOut(auth);
+
+
+
+//SETUP FOR AUTH OBSERVER LISTENER
+
+//initialize observer listener for auth stream
+export const onAuthStateChangedListener = (callback) => onAuthStateChanged(auth, callback);
+
+
 
 //SETUP FOR FIREBASE FIRESTORE
 

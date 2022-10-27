@@ -32,7 +32,7 @@ const SignInForm = () => {
             1. return an object with 4 props: operationType, providerId, user, _tokenResponse; 
             2. we just leverage user prop; user prop contain uid prop that we want to leverage inside createDocumentFromAuth;
         */
-
+        
        //for CRUD action in firestore
         await createUserDocumentFromAuth(user);
     };
@@ -44,12 +44,6 @@ const SignInForm = () => {
 
         try {
             const {user} = await signInAuthUserWithEmailAndPassword(email, password); //receive args from th html form below
-
-            // for context purpose, passing the user into user.context.js
-
-            setCurrentUser(user);
-
-            // for context purpose, passing the user into user.context.js
             
             resetFormFields();
         } catch (error) {
