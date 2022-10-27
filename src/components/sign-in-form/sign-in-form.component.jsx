@@ -44,6 +44,16 @@ const SignInForm = () => {
             console.log(response);
             resetFormFields();
         } catch (error) {
+            switch (error.code) {
+                case "auth/wrong-password":
+                    alert("Incorrect method");
+                    break;
+                case "auth/user-not-found":
+                    alert("User associated with the email was not found");
+                    break;
+                default:
+                    console.log(error);
+            };
         };
     };
 
@@ -66,7 +76,7 @@ const SignInForm = () => {
 
                 <div className="buttons-container">
                     <Button type="submit">Sign in</Button>
-                    <Button buttonType="google" onClick={signInWithGoogle}>Google sign in</Button>
+                    <Button type="button" buttonType="google" onClick={signInWithGoogle}>Google sign in</Button>
                 </div>
             </form>
         </div>
