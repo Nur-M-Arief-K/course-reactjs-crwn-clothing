@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 
 import {createUserDocumentFromAuth, signInWithGooglePopup, signInAuthUserWithEmailAndPassword } from "../../utils/firebase/firebase.utils";
 //is an alias for  createUserWithEmailAndPassword(auth, email, password); receive email, and password arguments; auth can be checked inside firebase.utils
@@ -7,6 +7,9 @@ import {createUserDocumentFromAuth, signInWithGooglePopup, signInAuthUserWithEma
 
 import FormInput from "../form-input/form-input.component";
 import Button from "../button/button.component";
+
+//for context purpose
+import { UserContext } from "../../contexts/user.context";
 
 import "./sign-in-form.styles.component.scss";
 
@@ -18,8 +21,8 @@ const defaultFormFields = {
 const SignInForm = () => {
     const [formFields, setFormFields] = useState(defaultFormFields);
     const {email, password} = formFields;
-    
-    console.log(formFields);
+
+    const {setCurrentUser} = useContext(UserContext);
 
     const resetFormFields = () => setFormFields(defaultFormFields);
 
@@ -40,8 +43,14 @@ const SignInForm = () => {
         event.preventDefault();
 
         try {
-            const response = await signInAuthUserWithEmailAndPassword(email, password); //receive args from th html form below
-            console.log(response);
+            const {user} = await signInAuthUserWithEmailAndPassword(email, password); //receive args from th html form below
+
+            // for context purpose, passing the user into user.context.js
+
+            setCurrentUser(user);
+
+            // for context purpose, passing the user into user.context.js
+            
             resetFormFields();
         } catch (error) {
             switch (error.code) {
