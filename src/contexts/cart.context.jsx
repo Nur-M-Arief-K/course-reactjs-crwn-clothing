@@ -3,12 +3,13 @@
 
 */
 
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 
 //HELPER FUNCTION WHEN A CART ITEM IS ADDED, ARGS IS RECEIVED THROUGH addItemToCart function below (inside CartProvider component);
 const addCartItem = (cartItems, productToAdd) => {
 
     const existingCartItem = cartItems.find((cartItem) => cartItem.id === productToAdd.id); //check if added cart item already exist inside cart-dropdown 
+    //cartItem is an object
 
     //if existingCartItem found, run block of code below
     if (existingCartItem) {
@@ -31,15 +32,26 @@ export const CartContext = createContext(
 
         //handler for cart item that has been added and function to add cart item to cart-dropdown.component
         cartItems: [], //similar as PRODUCTS object, but with a quantity prop addition
-        addItemToCart: () => {}
+        addItemToCart: () => {},
+
+        //for the number inside cart-icon
+        cartCount: 0
     }
 );
 
 export const CartProvider = ({children}) => {
-    const [isCartOpen, setIsCartOpen] = useState(false);
-    const [cartItems, setCartItems] = useState([]);
+    const [isCartOpen, setIsCartOpen] = useState(false); //for toggle cart dropdown when click cart-icon, leveraged inside navigation.component
+    const [cartItems, setCartItems] = useState([]); //for tracking something cart item, when it is added-reduce-removed
+    const [cartCount, setCartCount] = useState(0); //for the number inside cart-icon
 
-    const addItemToCart = (productToAdd) => { //arg is added from product-card.component, passing an object of products list 
+    //for re-render the number inside cart-icon when cartItems changed
+
+    useEffect(() => {
+        const newCartItem = cartItems.reduce((total, cartItem) => total + cartItem.quantity, 0);
+        setCartCount(newCartItem);
+    }, [cartItems]); //cartItems is a dependency, which means if cartItems changed useeffect will re-render
+
+    const addItemToCart = (productToAdd) => { //arg is added from product-card.component, passing an object of product
         setCartItems(addCartItem(cartItems, productToAdd));
     };
 
@@ -47,7 +59,8 @@ export const CartProvider = ({children}) => {
         isCartOpen,
         setIsCartOpen,
         cartItems,
-        addItemToCart
+        addItemToCart,
+        cartCount
     };
 
     return <CartContext.Provider value={value}>{children}</CartContext.Provider>
