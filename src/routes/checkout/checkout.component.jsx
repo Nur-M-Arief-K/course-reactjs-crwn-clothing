@@ -6,7 +6,7 @@ import { CartContext } from "../../contexts/cart.context";
 import "./checkout.styles.scss";
 
 const Checkout = () => {
-    const {cartItems} = useContext(CartContext); //cartItems is the 'memory' where added item stored (an object)
+    const {cartItems, cartTotal} = useContext(CartContext); //cartItems is the 'memory' where added item stored (an object)
 
     return (
         <div className="checkout-container">
@@ -37,7 +37,7 @@ const Checkout = () => {
                     //cartItem is an object of product that has been mapped (see block code above)
                 )
             }
-            <span className="total">Total: 0</span>
+            <span className="total">${cartTotal}</span>
         </div>
     );
 };

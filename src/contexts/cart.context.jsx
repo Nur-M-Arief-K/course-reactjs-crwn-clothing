@@ -63,7 +63,10 @@ export const CartContext = createContext(
         clearItemFromCart: () => {},
 
         //for the number inside cart-icon
-        cartCount: 0
+        cartCount: 0,
+
+        //for the total inside checkout.component
+        cartTotal: 0
     }
 );
 
@@ -71,11 +74,18 @@ export const CartProvider = ({children}) => {
     const [isCartOpen, setIsCartOpen] = useState(false); //for toggle cart dropdown when click cart-icon, leveraged inside navigation.component
     const [cartItems, setCartItems] = useState([]); //for tracking something cart item, when it is added-reduce-removed
     const [cartCount, setCartCount] = useState(0); //for the number inside cart-icon
+    const [cartTotal, setCartTotal] = useState(0); //for the total inside checkout.component
 
     //for re-render the number inside cart-icon when cartItems changed
     useEffect(() => {
         const newCartItem = cartItems.reduce((total, cartItem) => total + cartItem.quantity, 0);
         setCartCount(newCartItem);
+    }, [cartItems]); //cartItems is a dependency, which means if cartItems changed useeffect will re-render
+    //for re-render the number inside cart-icon when cartItems changed
+
+    useEffect(() => {
+        const newCartTotal = cartItems.reduce((total, cartItem) => total + cartItem.quantity * cartItem.price, 0);
+        setCartTotal(newCartTotal);
     }, [cartItems]); //cartItems is a dependency, which means if cartItems changed useeffect will re-render
 
 
@@ -99,7 +109,8 @@ export const CartProvider = ({children}) => {
         addItemToCart,
         removeItemFromCart,
         clearItemFromCart,
-        cartCount
+        cartCount,
+        cartTotal
     };
 
     return <CartContext.Provider value={value}>{children}</CartContext.Provider>
