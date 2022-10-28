@@ -1,31 +1,43 @@
 import { useContext } from "react";
+import CheckoutItem from "../../components/checkout-item/checkout-item.component";
 
 import { CartContext } from "../../contexts/cart.context";
 
+import "./checkout.styles.scss";
+
 const Checkout = () => {
-    const {cartItems, addItemToCart} = useContext(CartContext); //cartItems is the 'memory' where added item stored
+    const {cartItems} = useContext(CartContext); //cartItems is the 'memory' where added item stored (an object)
 
     return (
-        <div>
-            <h1>I am the checkout page</h1>
-            <div>
-            {
-                cartItems.map((cartItem) => {
-                    const {id, name, quantity} = cartItem;
-                    return (
-                        <div key={id}>
-                            <h2>{name}</h2>
-                            <span>{quantity}</span>
-                            <br />
-                            <span>decrement</span>
-                            <br />
-                            <span onClick={() => addItemToCart(cartItem)}>increment</span>
-                        </div>
-                    )
-                    //cartItem is an object of product that has been mapped (see block code above)
-                })
-            }
+        <div className="checkout-container">
+            <div className="checkout-header">
+                <div className="header-block">
+                    <span>Product</span>
+                </div>
+
+                <div className="header-block">
+                    <span>Description</span>
+                </div>
+
+                <div className="header-block">
+                    <span>Quantity</span>
+                </div>
+
+                <div className="header-block">
+                    <span>Price</span>
+                </div>
+
+                <div className="header-block">
+                    <span>Remove</span>
+                </div>
             </div>
+            {
+                cartItems.map((cartItem) => 
+                    <CheckoutItem key={cartItem.id} cartItem={cartItem}/>
+                    //cartItem is an object of product that has been mapped (see block code above)
+                )
+            }
+            <span className="total">Total: 0</span>
         </div>
     );
 };

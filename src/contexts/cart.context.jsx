@@ -24,6 +24,28 @@ const addCartItem = (cartItems, productToAdd) => {
     return [...cartItems, {...productToAdd, quantity: 1}];
 };
 
+//HELPER FUNCTION FOR removeItemFromCart below
+const removeCartItem = (cartItems, cartItemToRemove) => {
+    const existingCartItem = cartItems.find(
+        (cartItem) => cartItem.id === cartItemToRemove.id
+    );
+
+    //if the counter touch zero, this block of will be executed
+    if (existingCartItem.quantity === 1) {
+        return cartItems.filter(cartItem => cartItem.id !== cartItemToRemove.id);
+    }
+
+    return cartItems.map(
+        (cartItem) => cartItem.id === cartItemToRemove.id
+            ? {...cartItem, quantity: cartItem.quantity -1}
+            : cartItem
+    );
+};
+
+//HELPER FUNCTION FOR clearItemFromCart below
+const clearCartItem = (cartItems, cartItemToClear) =>
+    cartItems.filter((cartItem) => cartItem.id !== cartItemToClear.id);
+
 export const CartContext = createContext(
     {
         //to open/close cart-dropdown.component
@@ -33,6 +55,12 @@ export const CartContext = createContext(
         //handler for cart item that has been added and function to add cart item to cart-dropdown.component
         cartItems: [], //similar as PRODUCTS object, but with a quantity prop addition
         addItemToCart: () => {},
+
+        //removeItemFromCart
+        removeItemFromCart: () => {},
+
+        //clearItemFromCart
+        clearItemFromCart: () => {},
 
         //for the number inside cart-icon
         cartCount: 0
@@ -45,14 +73,23 @@ export const CartProvider = ({children}) => {
     const [cartCount, setCartCount] = useState(0); //for the number inside cart-icon
 
     //for re-render the number inside cart-icon when cartItems changed
-
     useEffect(() => {
         const newCartItem = cartItems.reduce((total, cartItem) => total + cartItem.quantity, 0);
         setCartCount(newCartItem);
     }, [cartItems]); //cartItems is a dependency, which means if cartItems changed useeffect will re-render
 
+
+    //Add-remove-clear item from product-card/cart-dropdown/checkout
     const addItemToCart = (productToAdd) => { //arg is added from product-card.component, passing an object of product
         setCartItems(addCartItem(cartItems, productToAdd));
+    };
+
+    const removeItemFromCart = (cartItemToRemove) => { //arg is added from product-card.component, passing an object of product
+        setCartItems(removeCartItem(cartItems, cartItemToRemove));
+    };
+
+    const clearItemFromCart = (cartItemToClear) => { //arg is added from product-card.component, passing an object of product
+        setCartItems(clearCartItem(cartItems, cartItemToClear));
     };
 
     const value = {
@@ -60,6 +97,8 @@ export const CartProvider = ({children}) => {
         setIsCartOpen,
         cartItems,
         addItemToCart,
+        removeItemFromCart,
+        clearItemFromCart,
         cartCount
     };
 
