@@ -1,9 +1,16 @@
+import { useContext } from "react";
+import { CartContext } from "../../contexts/cart.context";
+
 import Button from "../button/button.component";
 
 import "./product-card.styles.scss";
 
-const ProductCard = ({product}) => { //produc param is received from shop.component.jsx; the param is an object-list of product
+const ProductCard = ({product}) => { //product param is received from shop.component.jsx; the param is an object-list of products
     const {name, price, imageUrl} = product;
+
+    const {addItemToCart} = useContext(CartContext);
+
+    const addProductToCart = () => addItemToCart(product);
     
     return (
     
@@ -13,10 +20,10 @@ const ProductCard = ({product}) => { //produc param is received from shop.compon
             <span className="name">{name}</span>
             <span className="price">{price}</span>
         </div>
-        <Button buttonType="inverted">Add item to cart</Button>
+        <Button buttonType="inverted" onClick={addProductToCart}>Add item to cart</Button>
     </div>
 
-    )
+    );
 };
 
 export default ProductCard;
