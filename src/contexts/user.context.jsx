@@ -1,9 +1,19 @@
+/* 
+    THIS IS A CONTEXT FOR TRACKING CHANGES IN AUTHENTICATION, 
+    IS ONLY USED IN NAVIGATION COMPONENT BECAUSE SIGN-IN AND SIGN-UP DON'T NEED IT AS THERE'S A ONAUTHSTATECHANGED FUNCTION PROVIDED BY FIREBASEE 
+*/
+
 import { useState, createContext, useEffect } from "react";
 
 import {onAuthStateChangedListener, createUserDocumentFromAuth} from "../utils/firebase/firebase.utils";
 
 //setup user context
-export const UserContext = createContext();
+export const UserContext = createContext(
+    {
+        currentUser: null,
+        setCurrentUser: () => {}
+    }
+);
 
 export const UserProvider = ({children}) => {
     //setup the initial value for children component access to
