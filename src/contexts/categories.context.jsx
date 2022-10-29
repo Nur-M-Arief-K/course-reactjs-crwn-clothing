@@ -4,19 +4,21 @@ import { createContext, useState, useEffect } from "react";
 
 import { addCollectionAndDocuments, getCategoriesAndDocuments } from "../utils/firebase/firebase.utils.js";
 
-export const ProductsContext = createContext(
+export const CategoriesContext = createContext(
     {
-        products: []
+        categoriesMap: {}
     }
 );
 
-export const ProductsProvider = ({children}) => { //somehow children is connected to its children component in index.js in oreder to render its children component
-    const [products, setProducts] = useState([]);
+export const CategoriesProvider = ({children}) => { //somehow children is connected to its children component in index.js in oreder to render its children component
+    const [categoriesMap, setCategoriesMap] = useState({});
 
+    //WILL RUN ON MOUNT
     useEffect(() => {
         const getCategoriesMap = async () => {
-            const categoryMap = await getCategoriesAndDocuments();
+            const categoryMap = await getCategoriesAndDocuments(); //categoryMap {hats: [], jackets: [], etc}
             console.log(categoryMap);
+            setCategoriesMap(categoryMap);
         };
         getCategoriesMap();
     }, []);
@@ -26,8 +28,8 @@ export const ProductsProvider = ({children}) => { //somehow children is connecte
     //     addCollectionAndDocuments('categories', SHOP_DATA);
     // }, []); //categories is the collection key, SHOP_DATA is the objectToAdd which will be passed to firebase.utils.js
 
-    const value ={products};
+    const value ={categoriesMap};
     return (
-        <ProductsContext.Provider value={value}>{children}</ProductsContext.Provider>
+        <CategoriesContext.Provider value={value}>{children}</CategoriesContext.Provider>
     );
 };
