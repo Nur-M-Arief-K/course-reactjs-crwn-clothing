@@ -2,7 +2,7 @@
 
 import { createContext, useState, useEffect } from "react";
 
-import { addCollectionAndDocuments } from "../utils/firebase/firebase.utils.js";
+import { addCollectionAndDocuments, getCategoriesAndDocuments } from "../utils/firebase/firebase.utils.js";
 
 export const ProductsContext = createContext(
     {
@@ -12,6 +12,14 @@ export const ProductsContext = createContext(
 
 export const ProductsProvider = ({children}) => { //somehow children is connected to its children component in index.js in oreder to render its children component
     const [products, setProducts] = useState([]);
+
+    useEffect(() => {
+        const getCategoriesMap = async () => {
+            const categoryMap = await getCategoriesAndDocuments();
+            console.log(categoryMap);
+        };
+        getCategoriesMap();
+    }, []);
 
     //USED ONLY ONCE TO ADD SHOP_DATA.JS TO FIREBASE-FIRESTORE
     // useEffect(() => {

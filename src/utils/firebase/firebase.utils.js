@@ -17,13 +17,17 @@ import {
     4. signInWithEmailAndPassword for authenticating user from firebase auth db
 */
 
-import {getFirestore, doc, getDoc, setDoc, collection, writeBatch} from "firebase/firestore";
+import {getFirestore, doc, getDoc, setDoc, collection, writeBatch, query, getDocs} from "firebase/firestore";
 /*
     note for the import:
     1. getFireStore for setting up the db
     2. doc for setting up/ the collection and document
     3. getDoc for read the document
     4. setDoc to update the document
+    5. collection is for setup a collection
+    6. writebatch is for create a transaction
+    7. query is for taking up some data from firebase-firestore
+    8. getdocs is for fetch a snapshot from query
 */
 
 const firebaseConfig = {
@@ -99,6 +103,21 @@ export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => 
 
     await batch.commit();
     console.log("done");
+};
+
+//get categories from firebase
+export const getCategoriesAndDocuments = async () => {
+    const collectionRef = collection(db, 'categories'); //1 rank
+    const q = query(collectionRef); //query a collection inside firebase-firestore
+    const querySnaphot = await getDocs(q);
+
+    const categoryMap = querySnaphot.docs.reduce((acc, docSnapshot) => { //rank 2, .docs is calling document inside firebase-firestore
+        const {title, items} = docSnapshot.data(); //rank 3
+        acc[title.toLowerCase()] = items; //is a method to add new prop with its value to an object
+        return acc;
+    }, {});
+
+    return categoryMap;
 };
 
 //set up document in firestore
