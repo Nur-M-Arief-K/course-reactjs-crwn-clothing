@@ -17,7 +17,7 @@ import {
     4. signInWithEmailAndPassword for authenticating user from firebase auth db
 */
 
-import {getFirestore, doc, getDoc, setDoc} from "firebase/firestore";
+import {getFirestore, doc, getDoc, setDoc, collection, writeBatch} from "firebase/firestore";
 /*
     note for the import:
     1. getFireStore for setting up the db
@@ -42,7 +42,7 @@ const firebaseApp = initializeApp(firebaseConfig);
 //SETUP FOR FIREBASE AUTH
 
 //initialize to get an auth from firebase auth db, track all the auth state that happening in all of our website
-export const auth = getAuth();
+export const auth = getAuth(firebaseApp);
 
 //initialize googleAuth as provider
 const googleProvider = new GoogleAuthProvider();
@@ -85,6 +85,21 @@ export const onAuthStateChangedListener = (callback) => onAuthStateChanged(auth,
 
 //set the db where we want to CRUD
 export const db = getFirestore();
+
+//setup for document product in firestore/ add SHOP_DATA.js inside firebase-firestore
+export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
+    const collectionRef = collection(db, collectionKey);
+
+    const batch = writeBatch(db); //will use transaction concept, if one thing error inside a transaction-the whole transaction will be aborted
+
+    objectsToAdd.forEach((object) => {
+        const docRef = doc(collectionRef, object.title.toLowerCase());
+        batch.set(docRef, object);
+    });
+
+    await batch.commit();
+    console.log("done");
+};
 
 //set up document in firestore
 export const createUserDocumentFromAuth = async (userAuth, additionalInformation = {}) => {
