@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import Button from "../button/button.component";
 import CartItem from "../cart-item/cart-item.component";
 
-import "./cart-dropdown.styles.scss";
+import {CartDropdownContainer, EmptyMessage, CartItems} from "./cart-dropdown.styles.jsx";
 
 const CartDropdown = () => {
     const {cartItems} = useContext(CartContext); //cartItems is an array
@@ -19,15 +19,17 @@ const CartDropdown = () => {
     };
 
     return (
-        <div className="cart-dropdown-container">
-            <div className="cart-items">
+        <CartDropdownContainer >
+            <CartItems>
                 {
-                    cartItems.map((item) => 
-                    <CartItem key={item.id} cartItem={item} />)
+                    cartItems.length ? 
+                    (cartItems.map((item) => 
+                    <CartItem key={item.id} cartItem={item} />)) :
+                    (<EmptyMessage>Your cart is empty</EmptyMessage>)
                 }
-            </div>
+            </CartItems>
             <Button onClick={goToCheckoutHandler}>Checkout</Button>
-        </div>
+        </CartDropdownContainer>
     );
 
     //cartItems will be added when added to cart button inside product-card is clicked
