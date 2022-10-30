@@ -7,7 +7,7 @@ import { signInWithGooglePopup, signInAuthUserWithEmailAndPassword } from "../..
 import FormInput from "../form-input/form-input.component";
 import Button, {BUTTON_TYPE_CLASSES} from "../button/button.component";
 
-import { SignInContainer, H2, ButtonContainer } from "./sign-in-form.styles";
+import { SignInContainer, ButtonsContainer } from './sign-in-form.styles';
 
 const defaultFormFields = {
     email: "",
@@ -62,17 +62,37 @@ const SignInForm = () => {
 
     return (
         <SignInContainer>
-            <H2>Already have an account?</H2>
-            <span>Sign in with your email and password</span>
-            <form onSubmit={handleSubmit}>
-                <FormInput label="Email" type="email" onChange={handleChange} name="email" value={email} required/>
-                <FormInput label="Password" type="password" onChange={handleChange} name="password" value={password} required/>
+        <h2>Already have an account?</h2>
+        <span>Sign in with your email and password</span>
+        <form onSubmit={handleSubmit}>
+            <FormInput
+            label='Email'
+            type='email'
+            required
+            onChange={handleChange}
+            name='email'
+            value={email}
+            />
 
-                <ButtonContainer>
-                    <Button type="submit">Sign in</Button>
-                    <Button type="button" buttonType={BUTTON_TYPE_CLASSES.google} onClick={signInWithGoogle}>Google sign in</Button>
-                </ButtonContainer>
-            </form>
+            <FormInput
+            label='Password'
+            type='password'
+            required
+            onChange={handleChange}
+            name='password'
+            value={password}
+            />
+            <ButtonsContainer>
+            <Button type='submit'>Sign In</Button>
+            <Button
+                buttonType={BUTTON_TYPE_CLASSES.google}
+                type='button'
+                onClick={signInWithGoogle}
+            >
+                Sign In With Google
+            </Button>
+            </ButtonsContainer>
+        </form>
         </SignInContainer>
     );
 };
