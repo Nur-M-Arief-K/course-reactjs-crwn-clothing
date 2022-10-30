@@ -17,7 +17,6 @@ export const CategoriesProvider = ({children}) => { //somehow children is connec
     useEffect(() => {
         const getCategoriesMap = async () => {
             const categoryMap = await getCategoriesAndDocuments(); //categoryMap {hats: [], jackets: [], etc}
-            console.log(categoryMap);
             setCategoriesMap(categoryMap);
         };
         getCategoriesMap();

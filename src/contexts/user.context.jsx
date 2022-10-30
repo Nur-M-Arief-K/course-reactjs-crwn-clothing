@@ -31,7 +31,6 @@ export const UserProvider = ({children}) => {
                 createUserDocumentFromAuth(user);
             };
             setCurrentUser(user); //setCurrentUser above
-            console.log(user);
         }) //receive callback function; somehow 'user' is connected with googleprovider, user is just one prop out of 4 props
             //my hypothesis is that onAuthStateChanged(see firebase.utils.js) just return user prop out of the 4 props, so it can be leveraged directly, and also naturally onAuthStateChanged needs a callback
 
