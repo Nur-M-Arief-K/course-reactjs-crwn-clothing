@@ -3,9 +3,11 @@
     IS ONLY USED IN NAVIGATION COMPONENT BECAUSE SIGN-IN AND SIGN-UP DON'T NEED IT AS THERE'S A ONAUTHSTATECHANGED FUNCTION PROVIDED BY FIREBASEE 
 */
 
-import { useState, createContext, useEffect, useReducer } from "react";
+import { createContext, useEffect, useReducer } from "react";
 
 import {onAuthStateChangedListener, createUserDocumentFromAuth} from "../utils/firebase/firebase.utils";
+
+import { createAction } from "../utils/reducer/reducer.utils";
 
 //setup user context
 export const UserContext = createContext(
@@ -34,7 +36,7 @@ const userReducer = (state, action) => {
                 currentUser: payload
             }
         default:
-            throw new Error("Unhandled type ${type} in userReducer")
+            throw new Error(`Unhandled type ${type} in userReducer`)
     };
 };
 
@@ -56,7 +58,7 @@ export const UserProvider = ({children}) => {
 
     //setup for dispatch for userReducer which will be passed inside action param in userReducer
     const setCurrentUser = (user) => {
-        dispatch({type: USER_ACTION_TYPES.SET_CURRENT_USER, payload: user});
+        dispatch(createAction(USER_ACTION_TYPES.SET_CURRENT_USER, user));
     };
 
 
