@@ -3,7 +3,7 @@
     IS ONLY USED IN NAVIGATION COMPONENT BECAUSE SIGN-IN AND SIGN-UP DON'T NEED IT AS THERE'S A ONAUTHSTATECHANGED FUNCTION PROVIDED BY FIREBASEE 
 */
 
-import { useState, createContext, useEffect } from "react";
+import { useState, createContext, useEffect, useReducer } from "react";
 
 import {onAuthStateChangedListener, createUserDocumentFromAuth} from "../utils/firebase/firebase.utils";
 
@@ -15,9 +15,51 @@ export const UserContext = createContext(
     }
 );
 
+//SETUP USER REDUCER (USEREDUCER)
+
+export const USER_ACTION_TYPES = {
+    SET_CURRENT_USER: "SET_CURRENT_USER"
+};
+
+const userReducer = (state, action) => {
+    console.log('dispatch');
+    console.log(action);
+    const {type, payload} = action;
+
+    switch (type) {
+        case USER_ACTION_TYPES.SET_CURRENT_USER:
+            //return an object, update specific aspect of state while the rest of props still the same
+            return {
+                ...state,
+                currentUser: payload
+            }
+        default:
+            throw new Error("Unhandled type ${type} in userReducer")
+    };
+};
+
+const INITIAL_STATE = {
+    currentUser: null
+};
+
 export const UserProvider = ({children}) => {
     //setup the initial value for children component access to
-    const [currentUser, setCurrentUser] = useState(null);
+    // const [currentUser, setCurrentUser] = useState(null);
+
+
+    //setup for use reducer
+    const [state, dispatch] = useReducer(userReducer, INITIAL_STATE); //receive the reducer and initial state which will be passed to userreducer, while the action will be passed from dispatch
+    
+    const {currentUser} = state; //currentUser is a prop of state inside INITIAL_STATE, see above
+    console.log(currentUser);
+    //state is the state that currently stored, dispatch is a method if we want to change the state
+
+    //setup for dispatch for userReducer which will be passed inside action param in userReducer
+    const setCurrentUser = (user) => {
+        dispatch({type: USER_ACTION_TYPES.SET_CURRENT_USER, payload: user});
+    };
+
+
 
     //setup value to be passed in <userContext.Provider /> below, MUST BE AN OBJECT!    
     const value = {currentUser, setCurrentUser};
