@@ -109,13 +109,10 @@ export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => 
 export const getCategoriesAndDocuments = async () => {
     const collectionRef = collection(db, 'categories'); //1 rank
     const q = query(collectionRef); //query a collection inside firebase-firestore
-    const querySnaphot = await getDocs(q);
-
-    const categoryMap = querySnaphot.docs.reduce((acc, docSnapshot) => { //rank 2, .docs is calling document inside firebase-firestore
-        const {title, items} = docSnapshot.data(); //rank 3
-        acc[title.toLowerCase()] = items; //is a method to add new prop with its value to an object
-        return acc;
-    }, {});
+    const querySnaphot = await getDocs(q); //getDocs execute the query
+    
+    //rank 2, .docs is calling document inside firebase-firestore
+    const categoryMap = querySnaphot.docs.map(docSnaphot => docSnaphot.data()); //.data() ???
 
     return categoryMap;
 };
