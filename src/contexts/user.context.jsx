@@ -24,8 +24,6 @@ export const USER_ACTION_TYPES = {
 };
 
 const userReducer = (state, action) => {
-    console.log('dispatch');
-    console.log(action);
     const {type, payload} = action;
 
     switch (type) {
@@ -53,7 +51,6 @@ export const UserProvider = ({children}) => {
     const [state, dispatch] = useReducer(userReducer, INITIAL_STATE); //receive the reducer and initial state which will be passed to userreducer, while the action will be passed from dispatch
     
     const {currentUser} = state; //currentUser is a prop of state inside INITIAL_STATE, see above
-    console.log(currentUser);
     //state is the state that currently stored, dispatch is a method if we want to change the state
 
     //setup for dispatch for userReducer which will be passed inside action param in userReducer

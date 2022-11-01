@@ -1,20 +1,25 @@
 import { Fragment, useContext } from "react";
 import { Outlet } from "react-router-dom";
 
+//extract value off redux root, in this case root-reducer.js
+import { useSelector } from "react-redux";
+
 import {ReactComponent as CrwnLogo} from "../../assets/crown.svg";
 
 import { signOutUser } from "../../utils/firebase/firebase.utils";
 
-import { UserContext } from "../../contexts/user.context";
 import { CartContext } from "../../contexts/cart.context";
 
 import CartIcon from "../../components/cart-icon/cart-icon.component";
 import CartDropdown from "../../components/cart-dropdown/cart-dropdown.component";
 
 import { NavigationContainer, LogoContainer, NavLinks, NavLink } from "./navigation.styles";
+import { selectCurrentUser } from "../../store/user/user.selector";
 
 const Navigation = () => {
-    const {currentUser} = useContext(UserContext); //only need current user becausee setcurrentuser will change automactically using onauthstatechanged when user sign-in/sign-out (see user.context.js)
+    //Receive the whole redux root final value inside root-reducer.js to state, it's an object
+    const currentUser = useSelector(selectCurrentUser);
+
     const {isCartOpen} = useContext(CartContext); //only need isCartOpen, the setter will be in cart-icon.component.jsx
 
     //to is still there because in navigation.styles.js it's a Link
