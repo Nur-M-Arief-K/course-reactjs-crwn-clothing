@@ -16,7 +16,9 @@ import Checkout from "./routes/checkout/checkout.component";
 const App = () => {
   const dispatch = useDispatch();
 
+  //RUN JUST WHEN APP MOUNTS FOR THE FIRST TIME
   useEffect(() => {
+    //keeps listening on auth change alias an OBSERVER
     const unsubscribe = onAuthStateChangedListener((user) => {
         if(user) {
             createUserDocumentFromAuth(user);
@@ -27,7 +29,7 @@ const App = () => {
         dispatch(setCurrentUser(user));
     })
 
-    return unsubscribe;
+    return unsubscribe; //a clean up
   }, []);
 
   return (
