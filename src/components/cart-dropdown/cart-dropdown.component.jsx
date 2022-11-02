@@ -1,18 +1,16 @@
-import {useContext} from "react";
-
-import {CartContext} from "../../contexts/cart.context";
+import { useSelector } from "react-redux";
 
 import { useNavigate } from "react-router-dom";
 
 import Button from "../button/button.component";
 import CartItem from "../cart-item/cart-item.component";
+import { selectCartItems } from "../../store/cart/cart.selector";
 
 import {CartDropdownContainer, EmptyMessage, CartItems} from "./cart-dropdown.styles.jsx";
 
 const CartDropdown = () => {
-    const {cartItems} = useContext(CartContext); //cartItems is an array
+    const cartItems = useSelector(selectCartItems); //cartItems is an array
 
-    //setup navigate to function, we don't use <Link /> because <Button /> is our custom component that we need to stylize it
     const navigate = useNavigate();
     const goToCheckoutHandler = () => {
         navigate("/checkout")

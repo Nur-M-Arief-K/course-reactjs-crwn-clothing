@@ -9,7 +9,7 @@ export const selectCategories = createSelector(
     [selectCategoryReducer],
     //output
     (categoriesSlice) => categoriesSlice.categories
-)
+);
 
 //memoization #2
 export const selectCategoriesMap = createSelector(
@@ -22,5 +22,6 @@ export const selectCategoriesMap = createSelector(
             const {title, items} = category;
             acc[title.toLowerCase()] = items; //is a method to add new prop with its value to an object
             return acc;
-        }, {})}
+        }, {});
+    }
 );

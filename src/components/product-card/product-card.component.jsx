@@ -1,5 +1,8 @@
-import { useContext } from "react";
-import { CartContext } from "../../contexts/cart.context";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+
+import { addItemToCart,  } from "../../store/cart/cart.action"; 
+import { selectCartItems } from "../../store/cart/cart.selector";
 
 import Button, {BUTTON_TYPE_CLASSES} from "../button/button.component";
 
@@ -13,9 +16,11 @@ import {
 const ProductCard = ({product}) => { //product param is received from shop.component.jsx; the param is an object-list of products
     const {name, price, imageUrl} = product;
 
-    const {addItemToCart} = useContext(CartContext);
+    const dispatch = useDispatch();
 
-    const addProductToCart = () => addItemToCart(product);
+    const cartItems = useSelector(selectCartItems)
+
+    const addProductToCart = () => dispatch(addItemToCart(cartItems ,product));
     
     return (
     
