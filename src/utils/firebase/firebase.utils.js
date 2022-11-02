@@ -112,8 +112,7 @@ export const getCategoriesAndDocuments = async () => {
     const querySnaphot = await getDocs(q); //getDocs execute the query
     
     //rank 2, .docs is calling document inside firebase-firestore
-    const categoryMap = querySnaphot.docs.map(docSnaphot => docSnaphot.data()); //.data() ???
-
+    const categoryMap = querySnaphot.docs.map(docSnapshot => docSnapshot.data()); // docsnapshot return array [{title, item}, {title, item}] .data() ???
     return categoryMap;
 };
 
