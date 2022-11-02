@@ -39,6 +39,7 @@ const firebaseConfig = {
   appId: "1:648565636884:web:08f370a926f30d74a20c01"
 };
 
+// Initialize Firebase
 const firebaseApp = initializeApp(firebaseConfig);
 
 
@@ -46,7 +47,7 @@ const firebaseApp = initializeApp(firebaseConfig);
 //SETUP FOR FIREBASE AUTH
 
 //initialize to get an auth from firebase auth db, track all the auth state that happening in all of our website
-export const auth = getAuth(firebaseApp);
+export const auth = getAuth();
 
 //initialize googleAuth as provider
 const googleProvider = new GoogleAuthProvider();
@@ -112,8 +113,7 @@ export const getCategoriesAndDocuments = async () => {
     const querySnaphot = await getDocs(q); //getDocs execute the query
     
     //rank 2, .docs is calling document inside firebase-firestore
-    const categoryMap = querySnaphot.docs.map(docSnapshot => docSnapshot.data()); // docsnapshot return array [{title, item}, {title, item}] .data() ???
-    return categoryMap;
+    return querySnaphot.docs.map(docSnapshot => docSnapshot.data()); // docsnapshot return array [{title, item}, {title, item}] .data() ???
 };
 
 //set up document in firestore
