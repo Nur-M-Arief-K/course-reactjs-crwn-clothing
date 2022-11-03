@@ -3,10 +3,6 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { signUpStart } from "../../store/user/user.action";
 
-import { createAuthUserWithEmailAndPassword, createUserDocumentFromAuth } from "../../utils/firebase/firebase.utils";
-//is an alias for  createUserWithEmailAndPassword(auth, email, password); receive email, and password arguments; auth can be checked inside firebase.utils
-//createUserDocumetFromAuth is a function to write in firestore
-
 import FormInput from "../form-input/form-input.component";
 import Button from "../button/button.component";
 
