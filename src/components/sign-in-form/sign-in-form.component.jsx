@@ -1,8 +1,7 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 
-import { signInWithGooglePopup, signInAuthUserWithEmailAndPassword } from "../../utils/firebase/firebase.utils";
-//is an alias for  createUserWithEmailAndPassword(auth, email, password); receive email, and password arguments; auth can be checked inside firebase.utils
-//signInAuthUserWithEmailAndPassword for sign in with email and password
+import { googleSignInStart, emailSignInStart } from "../../store/user/user.action";
 
 import FormInput from "../form-input/form-input.component";
 import Button, {BUTTON_TYPE_CLASSES} from "../button/button.component";
@@ -15,27 +14,21 @@ const defaultFormFields = {
 };
 
 const SignInForm = () => {
+    const dispatch = useDispatch();
     const [formFields, setFormFields] = useState(defaultFormFields);
     const {email, password} = formFields;
 
     const resetFormFields = () => setFormFields(defaultFormFields);
 
     const signInWithGoogle = async () => {
-        await signInWithGooglePopup();
-        /*
-            1. return an object with 4 props: operationType, providerId, user, _tokenResponse; 
-            2. we just leverage user prop; user prop contain uid prop that we want to leverage inside createDocumentFromAuth;
-        */
+        dispatch(googleSignInStart());
     };
 
-    //setup for  functionality for onsubmit from html form tag below
     const handleSubmit = async (event) => {
-        //receive event from handle submit from html form tag below
         event.preventDefault();
 
         try {
-            const {user} = await signInAuthUserWithEmailAndPassword(email, password); //receive args from th html form below
-            
+            dispatch(emailSignInStart(email, password));
             resetFormFields();
         } catch (error) {
             switch (error.code) {
