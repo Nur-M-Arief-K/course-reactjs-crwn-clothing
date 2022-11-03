@@ -1,5 +1,8 @@
 import { useState } from "react";
 
+import { useDispatch } from "react-redux";
+import { signUpStart } from "../../store/user/user.action";
+
 import { createAuthUserWithEmailAndPassword, createUserDocumentFromAuth } from "../../utils/firebase/firebase.utils";
 //is an alias for  createUserWithEmailAndPassword(auth, email, password); receive email, and password arguments; auth can be checked inside firebase.utils
 //createUserDocumetFromAuth is a function to write in firestore
@@ -17,6 +20,8 @@ const defaultFormFields = {
 };
 
 const SignUpForm = () => {
+    const dispatch = useDispatch();
+    
     const [formFields, setFormFields] = useState(defaultFormFields);
     const {displayName, email, password, confirmPassword} = formFields;
 
@@ -33,10 +38,7 @@ const SignUpForm = () => {
         };
 
         try {
-            const {user} = await createAuthUserWithEmailAndPassword(email, password); //will just return user prop from the other 3 props, which contain: operationType, providerId, user, _tokenResponse
-
-            await createUserDocumentFromAuth(user, {displayName}); //will create the user data in firestore, the function is in firebase.utils
-
+            dispatch(signUpStart(email, password, displayName));
             resetFormFields();
         } catch (error) {
             if(error.code === "auth/email-already-in-use") {
