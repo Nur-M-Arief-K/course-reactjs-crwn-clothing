@@ -155,4 +155,17 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInformation
     return userDocRef;
 };
 
-
+export const getCurrentUser = () => {
+    return new Promise((resolve, reject) => {
+        //onAuthStateChanged is a function we get from firebase, auth is mandatory argument
+        //userAuth is a value we get from auth, auth is an alias for getAuth();
+        const unsubscribe = onAuthStateChanged(
+            auth, 
+            (userAuth) => {
+                unsubscribe();
+                resolve(userAuth)
+            },
+            reject
+        )
+    })
+};
