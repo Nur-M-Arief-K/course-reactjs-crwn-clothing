@@ -121,6 +121,8 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInformation
     if(!userAuth) return;
     
     //setup the collection and doc
+
+    //userDocRef is just a pointer where the data lives
     const userDocRef = doc(db, 'users', userAuth.uid);
     /*
     note:
@@ -133,6 +135,8 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInformation
     */
 
     //setup for reading the doc
+
+    //userSnapshot is the data snapshot
     const userSnapshot = await getDoc(userDocRef);
     
     //setup for update the doc
@@ -152,7 +156,7 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInformation
         };
     };
 
-    return userDocRef;
+    return userSnapshot;
 };
 
 export const getCurrentUser = () => {
