@@ -18,8 +18,6 @@ const persistConfig = {
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-//REDUX-PERSIST CONFIG END
-
 //REDUX-SAGA MIDDLEWARE SETUP
 const sagaMiddleware = createSagaMiddleware();
 
