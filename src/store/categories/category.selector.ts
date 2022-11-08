@@ -1,7 +1,11 @@
 import {createSelector} from "reselect";
 
+import { CategoriesState } from "./category.reducer";
+
+import { Category, CategoryMap } from "./category.types";
+
 //select categories prop (out of 2 props) from combine reducer inside store.js
-const selectCategoryReducer = (state) => state.categories;
+const selectCategoryReducer = (state): CategoriesState => state.categories;
 
 //memoization #1
 export const selectCategories = createSelector(
@@ -17,12 +21,12 @@ export const selectCategoriesMap = createSelector(
     [selectCategories],
 
     //output
-    (categories) => {
+    (categories): CategoryMap => {
         return categories.reduce((acc, category) => { 
             const {title, items} = category;
             acc[title.toLowerCase()] = items; //is a method to add new prop with its value to an object
             return acc;
-        }, {});
+        }, {} as CategoryMap);
     }
 );
 
