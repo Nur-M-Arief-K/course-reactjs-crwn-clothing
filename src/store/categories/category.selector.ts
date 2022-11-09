@@ -1,11 +1,13 @@
 import {createSelector} from "reselect";
 
+import { RootState } from "../store";
+
 import { CategoriesState } from "./category.reducer";
 
 import { Category, CategoryMap } from "./category.types";
 
 //select categories prop (out of 2 props) from combine reducer inside store.js
-const selectCategoryReducer = (state): CategoriesState => state.categories;
+const selectCategoryReducer = (state: RootState): CategoriesState => state.categories;
 
 //memoization #1
 export const selectCategories = createSelector(
