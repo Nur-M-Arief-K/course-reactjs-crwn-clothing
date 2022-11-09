@@ -4,6 +4,7 @@ import { Category } from "./category.types";
 
 import { fetchCategoriesStart, fetchCategoriesSuccess, fetchCategoriesFailed } from "./category.action";
 
+//INITIAL_STATE TYPE DECLARATION BELOW
 export type CategoriesState = {
     readonly categories: Category[],
     readonly isLoading: boolean,

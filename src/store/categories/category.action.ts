@@ -8,7 +8,7 @@ import {
 } from "../../utils/reducer/reducer.utils";
 
 
-
+//JUST TYPE DECLARATION, HOW THE INPUT SHOULD BE, SEE REDUCER.UTILS FOR ACTION AND ACTION WITH PAYLOAD
 export type FetchCategoriesStart = 
     Action<CATEGORY_ACTION_TYPES.FETCH_CATEGORIES_START>;
 
@@ -19,15 +19,17 @@ export type FetchCategoriesFailed =
     ActionWithPayload<CATEGORY_ACTION_TYPES.FETCH_CATEGORIES_FAILED, Error>;
 
 
+//THE REAL FUNCTIONS
+export const fetchCategoriesStart = 
+    withMatcher((): FetchCategoriesStart => 
+        createAction(CATEGORY_ACTION_TYPES.FETCH_CATEGORIES_START));
 
-    export const fetchCategoriesStart = withMatcher((): FetchCategoriesStart => 
-    createAction(CATEGORY_ACTION_TYPES.FETCH_CATEGORIES_START));
-
-export const fetchCategoriesSuccess = withMatcher((categoriesArray: Category[]): FetchCategoriesSuccess => 
-    createAction(
-            CATEGORY_ACTION_TYPES.FETCH_CATEGORIES_SUCCESS, 
-            categoriesArray
-    ));
+export const fetchCategoriesSuccess = 
+    withMatcher((categoriesArray: Category[]): FetchCategoriesSuccess => 
+        createAction(
+                CATEGORY_ACTION_TYPES.FETCH_CATEGORIES_SUCCESS, 
+                categoriesArray
+        ));
 
 export const fetchCategoriesFailed = withMatcher((error: Error): FetchCategoriesFailed => 
     createAction(
