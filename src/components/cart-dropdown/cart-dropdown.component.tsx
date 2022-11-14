@@ -6,7 +6,7 @@ import Button from "../button/button.component";
 import CartItem from "../cart-item/cart-item.component";
 import { selectCartItems } from "../../store/cart/cart.selector";
 
-import {CartDropdownContainer, EmptyMessage, CartItems} from "./cart-dropdown.styles.jsx";
+import {CartDropdownContainer, EmptyMessage, CartItems} from "./cart-dropdown.styles";
 
 const CartDropdown = () => {
     const cartItems = useSelector(selectCartItems); //cartItems is an array

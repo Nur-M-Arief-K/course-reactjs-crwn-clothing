@@ -1,8 +1,10 @@
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+import { FC } from "react";
+
+import { useDispatch, useSelector } from "react-redux";
 
 import { addItemToCart,  } from "../../store/cart/cart.action"; 
 import { selectCartItems } from "../../store/cart/cart.selector";
+import { CategoryItem } from '../../store/categories/category.types';
 
 import Button, {BUTTON_TYPE_CLASSES} from "../button/button.component";
 
@@ -13,18 +15,21 @@ import {
     Price,
 } from './product-card.styles';
 
-const ProductCard = ({product}) => { //product param is received from shop.component.jsx; the param is an object-list of products
+type ProductCardProps = {
+  product: CategoryItem;
+};
+
+const ProductCard: FC<ProductCardProps> = ({product}) => { //product param is received from shop.component.jsx; the param is an object-list of products
     const {name, price, imageUrl} = product;
 
     const dispatch = useDispatch();
 
-    const cartItems = useSelector(selectCartItems)
+    const cartItems = useSelector(selectCartItems);
 
-    const addProductToCart = () => dispatch(addItemToCart(cartItems ,product));
+    const addProductToCart = () => dispatch(addItemToCart(cartItems, product));
     
     return (
-    
-        <ProductCartContainer>
+      <ProductCartContainer>
         <img src={imageUrl} alt={`${name}`} />
         <Footer>
           <Name>{name}</Name>

@@ -1,6 +1,6 @@
 import {FC, ButtonHTMLAttributes} from "react";
 
-import {BaseButton, GoogleSignInButton, InvertedButton} from "./button.styles.js";
+import {BaseButton, GoogleSignInButton, InvertedButton} from "./button.styles";
 
 import {ButtonSpinner} from "./button.styles";
 
