@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, FormEvent, ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 
 import { googleSignInStart, emailSignInStart } from "../../store/user/user.action";
@@ -24,28 +24,19 @@ const SignInForm = () => {
         dispatch(googleSignInStart());
     };
 
-    const handleSubmit = async (event) => {
+    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
         try {
             dispatch(emailSignInStart(email, password));
             resetFormFields();
         } catch (error) {
-            switch (error.code) {
-                case "auth/wrong-password":
-                    alert("Incorrect method");
-                    break;
-                case "auth/user-not-found":
-                    alert("User associated with the email was not found");
-                    break;
-                default:
-                    console.log(error);
-            };
+            console.log("User sign in failed", error);
         };
     };
 
     //setup functionality for html input tag below
-    const handleChange = (event) => {
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         //event can contain value, name, etc and will be passed from inside html input tag below
         const {name, value} = event.target;
 

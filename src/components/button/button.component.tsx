@@ -1,14 +1,16 @@
-import {BaseButton, GoogleSignInButton, InvertedButton} from "./button.styles.jsx";
+import {FC, ButtonHTMLAttributes} from "react";
+
+import {BaseButton, GoogleSignInButton, InvertedButton} from "./button.styles.js";
 
 import {ButtonSpinner} from "./button.styles";
 
-export const BUTTON_TYPE_CLASSES = {
-    base: "base",
-    google: "google-sign-in",
-    inverted: "inverted"
+export enum BUTTON_TYPE_CLASSES {
+    base = "base",
+    google = "google-sign-in",
+    inverted = "inverted"
 };
 
-const getButton = (buttonType = BUTTON_TYPE_CLASSES.base) => (
+const getButton = (buttonType = BUTTON_TYPE_CLASSES.base): typeof BaseButton => (
     //THIS IS A METHOD TO TAKE A VALUE INSIDE AN OBJECT
     {
         [BUTTON_TYPE_CLASSES.base] : BaseButton,
@@ -17,7 +19,12 @@ const getButton = (buttonType = BUTTON_TYPE_CLASSES.base) => (
     }[buttonType] 
 );
 
-const Button = ({children, buttonType, isLoading, ...otherProps}) => {
+export type ButtonProps = {
+    buttonType?: BUTTON_TYPE_CLASSES;
+    isLoading?: boolean;
+} & ButtonHTMLAttributes<HTMLButtonElement>;
+
+const Button: FC<ButtonProps> = ({children, buttonType, isLoading, ...otherProps}) => {
     const CustomButton = getButton(buttonType); //will return BaseButton/GoogleSignInButton/InvertedButton
     return (
         <CustomButton disabled={isLoading} {...otherProps}>

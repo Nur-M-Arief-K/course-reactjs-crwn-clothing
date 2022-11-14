@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useState, FormEvent, ChangeEvent } from "react";
+
+import { AuthError, AuthErrorCodes } from "firebase/auth";
 
 import { useDispatch } from "react-redux";
 import { signUpStart } from "../../store/user/user.action";
@@ -24,7 +26,7 @@ const SignUpForm = () => {
     const resetFormFields = () => setFormFields(defaultFormFields);
 
     //setup for  functionality for onsubmit from html form tag below
-    const handleSubmit = async (event) => {
+    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         //receive event from handle sumbit from html form tag below
         event.preventDefault();
     
@@ -37,7 +39,7 @@ const SignUpForm = () => {
             dispatch(signUpStart(email, password, displayName));
             resetFormFields();
         } catch (error) {
-            if(error.code === "auth/email-already-in-use") {
+            if((error as AuthError).code === AuthErrorCodes.EMAIL_EXISTS) {
                 alert("Cannot create the user, email has already been used");
             } else {
                 console.log("user creation encountered an error", error);
@@ -46,7 +48,7 @@ const SignUpForm = () => {
     };
 
     //setup functionality for html input tag below
-    const handleChange = (event) => {
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         //event can contain value, name, etc and will be passed from inside html input tag below
         const {name, value} = event.target;
 
