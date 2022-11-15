@@ -23,9 +23,8 @@ const App = () => {
   }, []);
 
   return (
-    <>
+    <Suspense fallback={<Spinner />}>
       <GlobalStyle />
-      <Suspense fallback={<Spinner />}>
         <Routes>
           <Route path="/" element={<Navigation />}>
             <Route index element={<Home />} />
@@ -34,8 +33,7 @@ const App = () => {
             <Route path="checkout" element={<Checkout />}/>
           </Route>
         </Routes>
-      </Suspense>
-    </>
+    </Suspense>
   ) 
 }
 

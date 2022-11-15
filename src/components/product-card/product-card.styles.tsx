@@ -36,17 +36,22 @@ export const ProductCartContainer = styled.div`
 
   @media screen and (max-width: 800px) {
     width: 40vw;
-    &:hover {
-      img {
-        opacity: unset;
-      }
 
-      button {
-        opacity: 0.9;
-        display: block;
-        min-width: unset;
-        padding: 0 10px 10px;
-        font-size: 12px;
+    button {
+      display: block;
+      opacity: 0.9;
+      min-width: unset;
+      padding: 0 10px;
+      font-size: 12px;
+
+      &:hover {
+        img {
+          opacity: unset;
+        }
+  
+        button {
+          opacity: unset;
+        }
       }
     }
   };
