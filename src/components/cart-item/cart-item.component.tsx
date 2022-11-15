@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, memo } from 'react';
 
 import { CartItemContainer, ItemDetails } from './cart-item.styles';
 
@@ -8,7 +8,7 @@ type CartItemProps = {
     cartItem: TCartItem;
   };
 
-const CartItem: FC<CartItemProps> = ({cartItem}) => { //receive object of the product that has been added from shop.component.jsx
+const CartItem: FC<CartItemProps> = memo(({cartItem}) => { //receive object of the product that has been added from shop.component.jsx
     const {name, imageUrl, price, quantity} = cartItem;    
 
     return (
@@ -22,6 +22,6 @@ const CartItem: FC<CartItemProps> = ({cartItem}) => { //receive object of the pr
         </ItemDetails>
         </CartItemContainer>
     );
-};
+});
 
 export default CartItem;
